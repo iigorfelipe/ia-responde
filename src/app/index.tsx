@@ -4,11 +4,12 @@ import { NavigationProp } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import IconButton from '../components/icon-button';
 import { colors } from '../styles/colors';
-import { NavigationButton } from '../components/navigation-button';
-import HomeScreen from '../screens/home';
 import { DrawerParamList } from '../types/question';
+import { NavigationButton } from '../components/navigation-button';
+import IconButton from '../components/icon-button';
+import HomeScreen from '../screens/home';
+import QuestionDetails from '../screens/question-details';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -55,12 +56,11 @@ export const QUESTIONS: DrawerParamList['QuestionDetail'][] = [
 
 function CustomDrawer(props: DrawerContentComponentProps) {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
-  
 
   return (
     <View {...props} className="flex-1 p-4 gap-4">
       <View className="gap-5">
-        <NavigationButton text="Início" onPress={() => navigation.navigate('Home')} />       
+        <NavigationButton text="Início" onPress={() => navigation.navigate('Home')} />
       </View>
 
       {QUESTIONS.length === 0 ? (
@@ -81,7 +81,9 @@ function CustomDrawer(props: DrawerContentComponentProps) {
                 <View className="border-t border-gray-200 py-4 gap-3">
                   <Text className="font-light text-base">Hoje</Text>
                   <TouchableOpacity
-                    onPress={() => {}}
+                    onPress={() => {
+                      navigation.navigate('QuestionDetail', { ...item });
+                    }}
                     className="gap-5"
                   >
                     <Text className="text-lg font-semibold" numberOfLines={1} ellipsizeMode="tail">
@@ -118,18 +120,14 @@ export default function DrawerNavigator() {
           <View className="flex-row justify-between items-center p-4 bg-white">
             <MaterialIcons name="menu" size={24} onPress={() => navigation.openDrawer()} />
             <Text className="text-xl font-semibold">IA Responde</Text>
-            <IconButton
-              onPress={() => {}}
-              iconName="workspace-premium"
-              size={24}
-              iconColor={colors.primary}
-            />
+            <IconButton onPress={() => {}} iconName="workspace-premium" size={24} iconColor={colors.primary} />
           </View>
         ),
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} />    
+      <Drawer.Screen name="QuestionDetail" component={QuestionDetails} />
     </Drawer.Navigator>
   );
 }
