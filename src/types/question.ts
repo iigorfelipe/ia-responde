@@ -8,5 +8,6 @@ export type QuestionType = {
 
 export type DrawerParamList = {
   Home: undefined;
+  FavoriteQuestions: { favQuestions: QuestionType[] };
   QuestionDetail: QuestionType;
 };

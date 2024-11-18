@@ -4,11 +4,12 @@ import { NavigationProp } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { colors } from '../styles/colors';
 import { DrawerParamList } from '../types/question';
 import { NavigationButton } from '../components/navigation-button';
 import IconButton from '../components/icon-button';
+import { colors } from '../styles/colors';
 import HomeScreen from '../screens/home';
+import FavoriteQuestions from '../screens/favorites';
 import QuestionDetails from '../screens/question-details';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -56,11 +57,18 @@ export const QUESTIONS: DrawerParamList['QuestionDetail'][] = [
 
 function CustomDrawer(props: DrawerContentComponentProps) {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
+  const favoriteQuestions = QUESTIONS.filter((question) => question.fav);
 
   return (
     <View {...props} className="flex-1 p-4 gap-4">
       <View className="gap-5">
         <NavigationButton text="Início" onPress={() => navigation.navigate('Home')} />
+        {QUESTIONS.length > 0 && (
+          <NavigationButton
+            text="Perguntas favoritas"
+            onPress={() => navigation.navigate('FavoriteQuestions', { favQuestions: favoriteQuestions })}
+          />
+        )}
       </View>
 
       {QUESTIONS.length === 0 ? (
@@ -126,7 +134,8 @@ export default function DrawerNavigator() {
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} />    
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="FavoriteQuestions" component={FavoriteQuestions} />
       <Drawer.Screen name="QuestionDetail" component={QuestionDetails} />
     </Drawer.Navigator>
   );
