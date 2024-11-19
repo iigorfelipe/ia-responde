@@ -35,7 +35,7 @@ export default function FavoriteQuestions({ route }: { route: FavoriteQuestionsR
         </View>
         <View className="items-center w-full justify-center mt-auto">
           <Image
-            source={require('../../../assets/favorite-illustration-WEBP.webp')}
+            source={require('../assets/images/favorite-illustration.webp')}
             style={{ width: 300, height: 300 }}
           />
         </View>
@@ -93,7 +93,7 @@ export default function FavoriteQuestions({ route }: { route: FavoriteQuestionsR
         </View>
         <View className="items-center w-full justify-center mt-auto">
           <Image
-            source={require('../../../assets/favorite-illustration.png')}
+            source={require('../assets/images/favorite-illustration.webp')}
             style={{ width: 300, height: 300 }}
           />
         </View>
