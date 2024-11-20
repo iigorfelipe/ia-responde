@@ -1,4 +1,3 @@
-
 import { NewQuestionButton } from '@/src/components/navigation-button';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
@@ -7,16 +6,15 @@ import { FlatList, Image, Modal, ScrollView, Text, TouchableOpacity, View } from
 import { DrawerParamList } from '../types/question';
 import IconButton from '../components/icon-button';
 import { colors } from '../styles/colors';
+import { useQuestionStore } from '../store/use-question-store';
 
-type FavoriteQuestionsRouteProp = RouteProp<DrawerParamList, 'FavoriteQuestions'>;
-
-export default function FavoriteQuestions({ route }: { route: FavoriteQuestionsRouteProp }) {
-  const { favQuestions } = route.params;
-
+export default function FavoriteQuestions() {
+  const navigation = useNavigation<NavigationProp<DrawerParamList>>();
+  const { questions, toggleFavorite } = useQuestionStore();
   const [selectedValue, setSelectedValue] = useState('Data');
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation<NavigationProp<DrawerParamList>>();
 
+  const favQuestions = questions.filter((question) => question.fav);
   const options = ['Data', 'Nome'];
 
   const handleSelect = (value: string) => {
@@ -24,7 +22,7 @@ export default function FavoriteQuestions({ route }: { route: FavoriteQuestionsR
     setModalVisible(false);
   };
 
-  if (1 + 1 === 3) {
+  if (favQuestions.length === 0) {
     return (
       <View className="flex-1 bg-background px-4">
         <View className="bg-white rounded-3xl p-6 mt-auto">
@@ -86,7 +84,7 @@ export default function FavoriteQuestions({ route }: { route: FavoriteQuestionsR
                 >
                   <Text className="text-lg font-medium">{item.question}</Text>
                 </TouchableOpacity>
-                <IconButton iconName="star" iconColor={colors.primary} onPress={() => {}} />
+                <IconButton iconName="star" iconColor={colors.primary} onPress={() => toggleFavorite(item.id)} />
               </View>
             )}
           />

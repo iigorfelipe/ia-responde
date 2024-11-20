@@ -11,6 +11,7 @@ import { colors } from '../styles/colors';
 import HomeScreen from '../screens/home';
 import FavoriteQuestions from '../screens/favorites';
 import QuestionDetails from '../screens/question-details';
+import { useQuestionStore } from '../store/use-question-store';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -30,60 +31,34 @@ function SearchInput() {
   );
 }
 
-export const QUESTIONS: DrawerParamList['QuestionDetail'][] = [
-  {
-    id: '8',
-    question: 'Qual o valor de pi?',
-    answer:
-      'O valor de pi (π) é aproximadamente 3,14159. É uma constante matemática que representa a razão entre a circunferência de um círculo e seu diâmetro. Pi é um número irracional, o que significa que suas casas decimais são infinitas e não se repetem de forma periódica.',
-    date: '17/11/2024',
-    fav: true,
-  },
-  {
-    id: '7',
-    question: 'Qual o tamanho do sistema solar?',
-    answer:
-      'O Sistema Solar tem um tamanho de cerca de 15 trilhões de quilômetros até a Nuvem de Oort, a sua borda teórica.',
-    date: '17/11/2024',
-    fav: true,
-  },
-  { id: '6', question: 'Pergunta 04', answer: 'Resposta 04', date: '16/11/2024', fav: false },
-  { id: '5', question: 'Pergunta 03', answer: 'Resposta 03', date: '16/11/2024', fav: false },
-  { id: '4', question: 'Pergunta 02', answer: 'Resposta 02', date: '16/11/2024', fav: false },
-  { id: '3', question: 'Pergunta 01', answer: 'Resposta 01', date: '16/11/2024', fav: false },
-  { id: '2', question: 'Pergunta 01', answer: 'Resposta 01', date: '16/11/2024', fav: false },
-  { id: '1', question: 'Pergunta 01', answer: 'Resposta 01', date: '16/11/2024', fav: false },
-];
-
 function CustomDrawer(props: DrawerContentComponentProps) {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
-  const favoriteQuestions = QUESTIONS.filter((question) => question.fav);
+
+  const { questions } = useQuestionStore();
 
   return (
     <View {...props} className="flex-1 p-4 gap-4">
-      <View className="gap-5">
-        <NavigationButton text="Início" onPress={() => navigation.navigate('Home')} />
-        {QUESTIONS.length > 0 && (
-          <NavigationButton
-            text="Perguntas favoritas"
-            onPress={() => navigation.navigate('FavoriteQuestions', { favQuestions: favoriteQuestions })}
-          />
-        )}
-      </View>
-
-      {QUESTIONS.length === 0 ? (
+      {questions.length === 0 ? (
         <Text className="text-center font-medium text-base mt-auto">
           Ainda não há perguntas feitas. Que tal começar agora? Realize sua primeira pergunta e ela aparecerá
           aqui!
         </Text>
       ) : (
         <>
+          <View className="gap-5">
+            <NavigationButton text="Início" onPress={() => navigation.navigate('Home')} />
+            <NavigationButton
+              text="Perguntas favoritas"
+              onPress={() => navigation.navigate('FavoriteQuestions')}
+            />
+          </View>
+
           <SearchInput />
 
           <View className="flex-1">
             <Text className="text-base font-semibold mb-4">Últimas perguntas</Text>
             <FlatList
-              data={QUESTIONS}
+              data={questions}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <View className="border-t border-gray-200 py-4 gap-3">
@@ -107,7 +82,7 @@ function CustomDrawer(props: DrawerContentComponentProps) {
 
       <View className="mt-auto">
         <NavigationButton
-          text={`${QUESTIONS.length === 0 ? 'Fazer minha primeira pergunta' : 'Fazer uma nova pergunta'}`}
+          text={`${questions.length === 0 ? 'Fazer minha primeira pergunta' : 'Fazer uma nova pergunta'}`}
           onPress={() => navigation.navigate('Home')}
         />
       </View>
@@ -128,7 +103,12 @@ export default function DrawerNavigator() {
           <View className="flex-row justify-between items-center p-4 bg-white">
             <MaterialIcons name="menu" size={24} onPress={() => navigation.openDrawer()} />
             <Text className="text-xl font-semibold">IA Responde</Text>
-            <IconButton onPress={() => {}} iconName="workspace-premium" size={24} iconColor={colors.primary} />
+            <IconButton
+              onPress={() => {}}
+              iconName="workspace-premium"
+              size={24}
+              iconColor={colors.primary}
+            />
           </View>
         ),
       }}
