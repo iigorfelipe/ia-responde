@@ -2,12 +2,12 @@ export type QuestionType = {
   id: string;
   question: string;
   answer: string;
-  date: string;
+  created: number;
   fav: boolean;
 };
 
 export type DrawerParamList = {
   Home: undefined;
-  FavoriteQuestions: { favQuestions: QuestionType[] };
+  FavoriteQuestions: undefined;
   QuestionDetail: QuestionType;
 };
