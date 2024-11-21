@@ -105,7 +105,7 @@ export default function QuestionDetails({ route }: { route: QuestionDetailsRoute
                 size={12}
                 iconColor={colors.border}
                 onPress={() => {
-                  Clipboard.setStringAsync(answer);
+                  Clipboard.setStringAsync(question);
                   Notification.success(
                     'Pergunta copiada!',
                     'A pergunta foi copiada para a área de transferência',
