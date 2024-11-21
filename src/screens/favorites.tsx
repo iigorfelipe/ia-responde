@@ -104,7 +104,7 @@ export default function FavoriteQuestions() {
                   onPress={() => {
                     navigation.navigate('QuestionDetail', { ...item });
                   }}
-                  className="p-2"
+                  className="p-2 max-w-[90%]"
                 >
                   <Text className="text-lg font-medium">{item.question}</Text>
                 </TouchableOpacity>
@@ -126,29 +126,29 @@ export default function FavoriteQuestions() {
 
         <NewQuestionButton />
         <CustomAlert />
-      </ScrollView>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 justify-center items-center bg-black/50">
-          <View className="bg-white rounded-3xl w-80">
-            <FlatList
-              data={options}
-              keyExtractor={(item) => item}
-              renderItem={({ item, index }) => (
-                <View className={`py-6 ${index === options.length - 1 ? '' : 'border-b border-background'}`}>
-                  <TouchableOpacity onPress={() => handleSelect(item)}>
-                    <Text className="text-center text-lg font-medium">{item}</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View className="flex-1 justify-center items-center bg-black/50">
+            <View className="bg-white rounded-3xl w-80">
+              <FlatList
+                data={options}
+                keyExtractor={(item) => item}
+                renderItem={({ item, index }) => (
+                  <View className={`py-6 ${index === options.length - 1 ? '' : 'border-b border-background'}`}>
+                    <TouchableOpacity onPress={() => handleSelect(item)}>
+                      <Text className="text-center text-lg font-medium">{item}</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </ScrollView>
       <View className="mb-[3%]" />
       <AreaPremium />
     </View>
