@@ -13,7 +13,7 @@ import AreaPremium from '../components/area-premium';
 export default function FavoriteQuestions() {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
   const { questions, toggleFavorite } = useQuestionStore();
-  const [selectedValue, setSelectedValue] = useState('Data');
+  const [selectedValue, setSelectedValue] = useState('Data (Mais recentes)');
   const [modalVisible, setModalVisible] = useState(false);
 
   const { showAlert, CustomAlert, navigate } = useCustomAlert();
@@ -30,7 +30,7 @@ export default function FavoriteQuestions() {
   };
 
   const favQuestions = questions.filter((question) => question.fav);
-  const options = ['Data', 'Nome'];
+  const options = ['Data (Mais recentes)', 'Nome', 'Data (Mais antigos)'];
 
   const handleSelect = (value: string) => {
     setSelectedValue(value);
@@ -38,7 +38,10 @@ export default function FavoriteQuestions() {
   };
 
   const sortedFavQuestions = favQuestions.sort((a, b) => {
-    if (selectedValue === 'Data') {
+    if (selectedValue.includes('recentes')) {
+      return new Date(b.created).getTime() - new Date(a.created).getTime();
+    }
+    if (selectedValue.includes('antigos')) {
       return new Date(a.created).getTime() - new Date(b.created).getTime();
     }
     if (selectedValue === 'Nome') {
