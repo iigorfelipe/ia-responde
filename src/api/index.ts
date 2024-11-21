@@ -7,7 +7,9 @@ function fetchFakeResponse(question: string) {
     id: `chatcmpl-fake-not-found${Math.floor(Date.now() / 1000)}`,
     created: Math.floor(Date.now() / 1000),
     usage: {
-      total_tokens: 0,
+      prompt_tokens: 13,
+      completion_tokens: 7,
+      total_tokens: 20,
     },
     choices: [
       {
@@ -21,8 +23,11 @@ function fetchFakeResponse(question: string) {
 
   const { id, created, usage, choices } = fakeResponse;
   const answer = choices[0].message.content.trim();
-  const tokensUsed = usage.total_tokens;
-
+  const tokensUsed = {
+    prompt_tokens: usage.prompt_tokens,
+    completion_tokens: usage.completion_tokens,
+    total_tokens: usage.total_tokens,
+  };
   return { id, answer, tokensUsed, created, error: null };
 }
 
@@ -33,7 +38,7 @@ async function fetchRealOpenAIResponse(question: string) {
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini-2024-07-18',
         messages: [
           { role: 'system', content: 'Você é um assistente útil.' },
           { role: 'user', content: question },
@@ -52,7 +57,11 @@ async function fetchRealOpenAIResponse(question: string) {
     const id = response.data.id;
     const answer = response.data.choices[0].message.content.trim();
     const created = response.data.created;
-    const tokensUsed = response.data.usage.total_tokens;
+    const tokensUsed = {
+      prompt_tokens: response.data.usage.prompt_tokens,
+      completion_tokens: response.data.usage.completion_tokens,
+      total_tokens: response.data.usage.total_tokens,
+    };
 
     return { id, answer, created, tokensUsed, error: null };
   } catch (error) {
