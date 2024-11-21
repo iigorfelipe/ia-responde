@@ -1,6 +1,6 @@
 <div align="center">
 
-[Desafio](#-challenge) | [Tecnologias](#technologies) | [Instalação](#-install) | [API](#-api) | [Autor](#-autor)
+[Desafio](#challenge) | [Tecnologias](#technologies) | [Instalação](#install) | [API](#api) | [Autor](#autor)
 
 </div>
 
@@ -28,8 +28,6 @@
 ## 📌 Desafio:
 
 **Desenvolver um aplicativo React Native que consuma a API da OpenAI e armazene os dados localmente no dispositivo.**
-
-<a name="about"></a>
 
 ## 📄 Sobre o Projeto:
 
@@ -67,7 +65,6 @@
 - **Toast:** Notificações simples e eficazes para feedback do usuário.
 
 <a name="install"></a>
-
 
 ## 📋 Executando o Projeto Localmente:
 
@@ -126,6 +123,8 @@ O parâmetro true faz com que a função retorne dados simulados.
 3. Para personalizar as respostas falsas, abra o arquivo `src/mock/fake-questions.ts` e adicione novas perguntas e respostas no array `questionsAndAnswers`.
 
 Isso permite que você teste a aplicação com dados simulados, que são idênticos aos da API real.
+
+<a name="api"></a>
 
 ## 🌐 API:
 
@@ -201,6 +200,8 @@ Se houvesse mais tempo, as seguintes melhorias poderiam ser implementadas:
 
 - **UI/UX:** Refinamentos na interface de usuário para melhorar a experiência do usuário e a usabilidade.
 - **Testes Unitários:** Implementação de testes unitários.
+
+<a name="autor"></a>
 
 ## 👨‍💻 Autor
 
