@@ -32,15 +32,12 @@ export default function HomeScreen() {
     const existingQuestion = questions.find((q) => q.question === question);
 
     if (existingQuestion) {
-      console.log(' --- Pergunta ja realizada --- ');
       navigation.navigate('QuestionDetail', { ...existingQuestion });
       setIsLoading(false);
       return;
     }
 
     const response = await fetchOpenAIResponse(question);
-
-    console.log(' --- RESPONSE --- ', response);
 
     if (response.error?.status === 429) {
       openBottomSheet();
