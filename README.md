@@ -1,6 +1,6 @@
 <div align="center">
 
-[Desafio](#-desafio) | [Sobre](#-sobre-o-projeto) | [Tecnologias](#tecnologias-utilizadas) | [Instalação](#-executando-o-projeto-localmente) | [API](#-api) | [Autor](#-autor)
+[Desafio](#-challenge) | [Tecnologias](#technologies) | [Instalação](#-install) | [API](#-api) | [Autor](#-autor)
 
 </div>
 
@@ -23,9 +23,13 @@
 <video src="https://github.com/user-attachments/assets/7e8b3d67-5799-45b7-b115-8636b143b40b" autoplay loop muted height="450px"></video>
 <video src="https://github.com/user-attachments/assets/e846bc1c-dfbd-4c82-9d03-1ae2b3abe1da" autoplay loop muted height="450px"></video>
 
+<a name="challenge"></a>
+
 ## 📌 Desafio:
 
 **Desenvolver um aplicativo React Native que consuma a API da OpenAI e armazene os dados localmente no dispositivo.**
+
+<a name="about"></a>
 
 ## 📄 Sobre o Projeto:
 
@@ -44,7 +48,7 @@
   - Ordenação por `Nome`, `Data (Mais recentes)` e `Data (Mais antigas)`
 - **Header:** Acesso ao menu lateral e área de assinatura premium.
 
-<a name="tecnologias-utilizadas"></a>
+<a name="technologies"></a>
 
 ## 🛠️ Tecnologias Utilizadas:
 
@@ -61,6 +65,9 @@
 - **Expo router:** Roteamento dinâmico e fácil entre telas no Expo.
 - **Tailwind e Nativewind:** Estilos rápidos e responsivos com a conveniência do Tailwind no Expo.
 - **Toast:** Notificações simples e eficazes para feedback do usuário.
+
+<a name="install"></a>
+
 
 ## 📋 Executando o Projeto Localmente:
 
