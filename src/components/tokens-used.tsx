@@ -5,11 +5,12 @@ import { TokensType } from '../types/question';
 import { AreaPremiumContent } from './area-premium';
 
 type TokensUsedProps = { tokensUsed: TokensType };
-
 export default function TokensUsed({ tokensUsed }: TokensUsedProps) {
   const { isOpen } = useAreaPremiumStore();
+  const snapPoints = ['3%', '10%', '40%', '100%'];
   return (
     <BottomSheetDemo
+      snapPoints={snapPoints}
       isOpen={isOpen}
       onClose={() => {}}
       children={

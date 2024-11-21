@@ -5,11 +5,16 @@ interface BottomSheetDemoProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  snapPoints?: string[];
 }
 
-export default function BottomSheetDemo({ isOpen, onClose, children }: BottomSheetDemoProps) {
+export default function BottomSheetDemo({
+  isOpen,
+  onClose,
+  children,
+  snapPoints = ['3%', '10%', '40%'],
+}: BottomSheetDemoProps) {
   const sheetRef = useRef<BottomSheet>(null);
-  const snapPoints = ['3%', '10%', '40%'];
 
   useEffect(() => {
     if (isOpen) {
