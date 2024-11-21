@@ -194,7 +194,6 @@ Se houvesse mais tempo, as seguintes melhorias poderiam ser implementadas:
   - Reorganizar favoritos com arrastar e soltar.
   - Implementar funcionalidades para a tela de assinatura premium.
   - Mover perguntas excluidas para uma lixeira. Perguntas ainda na lixeira evita novas chamadas a API.
-  - Testes.
   - Tela de login.
   - Deploy.
 
