@@ -1,50 +1,203 @@
-# Welcome to your Expo app 👋
+<div align="center">
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+[Desafio](#-desafio) | [Sobre](#-sobre-o-projeto) | [Tecnologias](#tecnologias-utilizadas) | [Instalação](#-executando-o-projeto-localmente) | [API](#-api) | [Autor](#-autor)
 
-## Get started
+</div>
 
-1. Install dependencies
+# IA Responde
 
-   ```bash
-   npm install
-   ```
+## Protótipo de Design (Figma)
 
-2. Start the app
+<img src="https://github.com/user-attachments/assets/ffba3159-0733-412f-a995-43f7da51d935">
 
-   ```bash
-    npx expo start
-   ```
+<!-- ## 🖼️ Imagens:
 
-In the output, you'll find options to open the app in a
+<img src="" alt="Tela inical" height="450px" />
+<img src="" alt="Menu lateral" height="450px" />
+<img src="" alt="Tela de Favoritos" height="450px" />
+<img src="" alt="Tela de Detalhes da pergunta" height="450px" />
+<img src="" alt="Área de assinatura premium" height="450px" /> -->
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🎥 Vídeos:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+<video src="https://github.com/user-attachments/assets/7e8b3d67-5799-45b7-b115-8636b143b40b" autoplay loop muted height="450px"></video>
+<video src="https://github.com/user-attachments/assets/e846bc1c-dfbd-4c82-9d03-1ae2b3abe1da" autoplay loop muted height="450px"></video>
 
-## Get a fresh project
+## 📌 Desafio:
 
-When you're ready, run:
+**Desenvolver um aplicativo React Native que consuma a API da OpenAI e armazene os dados localmente no dispositivo.**
+
+## 📄 Sobre o Projeto:
+
+**IA Responde** é um aplicativo React Native desenvolvido para interagir com a API da OpenAI, oferecendo uma experiência de perguntas e respostas (Q&A) personalizada. Os dados são salvos localmente no dispositivo, garantindo fácil acesso offline.
+
+## 🔗 Funcionalidades Principais:
+
+- **Tela inicial:** Envie perguntas à API da OpenAI.
+  - Perguntas e respostas são salvas, junto com a contagem de tokens utilizados.
+  - Perguntas já respondidas não geram novas chamadas à API.
+- **Detalhes da Pergunta:** Exibe a resposta gerada e opções para copiar, favoritar ou excluir.
+  - **Bottom Sheets:** Painéis deslizantes que mostram informações extras, como tokens usados e planos de assinatura premium.
+- **Menu lateral:** Exibe lista de perguntas com navegação para detalhes, favoritos e tela inicial.
+  - Filtros por nome e agrupamento por data.
+- **Favoritos:**  Lista de perguntas favoritas, com opção de desfavoritar.
+  - Ordenação por `Nome`, `Data (Mais recentes)` e `Data (Mais antigas)`
+- **Header:** Acesso ao menu lateral e área de assinatura premium.
+
+<a name="tecnologias-utilizadas"></a>
+
+## 🛠️ Tecnologias Utilizadas:
+
+- **[React Native](https://reactnative.dev/)**
+- **[Expo@latest](https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/)**
+- **[TypeScript](https://www.typescriptlang.org/)**
+- **[API OpenAI](https://platform.openai.com/docs/api-reference/introduction)**
+- **[NativeWind](https://www.nativewind.dev/)**
+
+## 🔗 Principais Bibliotecas Utilizadas:
+
+- **Async Storage:** Armazenamento persistente de dados localmente no dispositivo.
+- **Zustand:** Gerenciamento de estado simples, leve e eficiente.
+- **Expo router:** Roteamento dinâmico e fácil entre telas no Expo.
+- **Tailwind e Nativewind:** Estilos rápidos e responsivos com a conveniência do Tailwind no Expo.
+- **Toast:** Notificações simples e eficazes para feedback do usuário.
+
+## 📋 Executando o Projeto Localmente:
+
+1. Clone o repositório:
 
 ```bash
-npm run reset-project
+git clone git@github.com:iigorfelipe/ia-responde.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Entre na pasta do projeto:
 
-## Learn more
+```bash
+cd ia-responde
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Instale as dependências:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm install
+```
 
-## Join the community
+4. **Crie o arquivo .env:** Copie o arquivo de exemplo para criar seu próprio arquivo de configuração.
 
-Join our community of developers creating universal apps.
+```bash
+cp .env.example .env
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+5. Execute o projeto:
+
+```bash
+npx expo start
+```
+
+ou
+
+```bash
+npx expo start --tunnel --clear
+```
+
+⚠️ Se encontrar qualquer dificuldade, sinta-se à vontade para me contatar através dos links fornecidos ao final desta documentação.
+
+## 🔧🌐 Testando sem a chave da OpenAI:
+
+Você pode testar a aplicação sem precisar de uma chave da API. Para isso, siga os passos abaixo:
+
+1. Abra o arquivo `src/screens/home.tsx`.
+
+2. Vá até a `linha 40` e substitua o código atual por:
+
+```bash
+const response = await fetchOpenAIResponse(question, true);
+```
+
+O parâmetro true faz com que a função retorne dados simulados.
+
+3. Para personalizar as respostas falsas, abra o arquivo `src/mock/fake-questions.ts` e adicione novas perguntas e respostas no array `questionsAndAnswers`.
+
+Isso permite que você teste a aplicação com dados simulados, que são idênticos aos da API real.
+
+## 🌐 API:
+
+A aplicação utiliza a API da OpenAI para gerar respostas. A função fetchRealOpenAIResponse faz uma requisição para o endpoint `https://api.openai.com/v1/chat/completions`, enviando a pergunta do usuário e retornando os seguintes dados:
+
+- **id:** Identificador único da interação, retirado de `response.data.id`.
+- **answer:** Resposta gerada pelo modelo, extraída de `response.data.choices[0].message.content`.
+- **created:** Timestamp da criação da resposta, vindo de `response.data.created`.
+- **tokensUsed:** Detalhes sobre o uso de tokens, proveniente de `response.data.usage`.
+
+Esses dados são salvos para exibir ao usuário e possibilitar o uso offline.
+
+Para mais detalhes sobre os retornos da API, consulte a [documentação oficial da OpenAI](https://platform.openai.com/docs/api-reference/making-requests)
+
+## Estrutura do Projeto
+
+- **src/**
+  - **api/**: Contém a chamada à API da OpenAI.
+  - **app/**: Contém o layout do aplicativo, incluindo a tela de "Not Found" e o menu lateral que possibilita a navegação entre as telas.
+  - **assets/**: Arquivos de mídia.
+  - **components/**: Componentes reutilizáveis ao longo do aplicativo.
+  - **hooks/**: Hooks com lógicas que podem ser utilizadas pelo app.
+  - **mock/**: Dados simulados para testes, evitando chamadas reais à API e economizando créditos da OpenAi.
+  - **screens/**: Contém as telas da aplicação, como a tela inicial, detalhes da pergunta e favoritos.
+  - **store/**: Gerenciamento de estado global, utilizando zustand.
+  - **styles/**: Arquivos de estilo do aplicativo.
+  - **types/**: Tipagens utilizadas em todo o app.
+  - **utils/**: Funções utilitárias gerais para o funcionamento do app.
+
+## Decisões Tomadas:
+
+1. Planejamento e Pesquisa.
+
+   - Iniciei lendo todos os requisitos e escrevi um passo a passo no bloco de notas.
+   - Priorizei o layout, então fui ao Figma para desenhar o projeto, usando como referência os layouts do ChatGPT e Meu Guru.
+
+2. Estruturação do App.
+
+   - Comecei o app React usando o Expo mais recente e seguindo as seguintes referências para configuração: [React Native](https://reactnative.dev/docs/environment-setup) e [Expo](https://docs.expo.dev/router/installation/)
+
+3. Bibliotecas e Ferramentas.
+
+   - Escolhi o NativeWind para os estilos, baseado na documentação de integração do [TailwindCSS com Expo](https://www.nativewind.dev/getting-started/expo-router). Isso me ajudou a configurar arquivos como `metro.config.js` e `babel.config.js`.
+   - Utilizei `@expo/vector-icons` para ícones e escolhi o pacote `MaterialIcons` para garantir mais consistência.
+
+4. Imagens e Recursos.
+
+   - As imagens foram obtidas no site [Freepik](https://br.freepik.com/), baixadas como vetores e editadas no VSCode, ajustando cores e posições de elementos (por exemplo, "AI" por "IA").
+   - Converti as imagens para o formato WebP para maior compatibilidade com dispositivos móveis.
+
+5. Desafios.
+   - O maior desafio foi manter a consistência entre iOS e Android, e felizmente o React Native oferece várias ferramentas para ajudar com isso.
+   - Encontrei um problema no iOS: ao abrir o teclado, o campo de texto ficava coberto, o que impedia a visualização do conteúdo. Tentei usar KeyboardAvoidingView como sugere a documentação, mas não obtive sucesso. Para resolver isso, criei um hook chamado `useKeyboardSafeAreaIOS`, que adiciona um espaçamento no rodapé sempre que o teclado aparece no iOS, empurrando o conteúdo para cima.
+
+## 🔧 Melhorias Futuras:
+
+Se houvesse mais tempo, as seguintes melhorias poderiam ser implementadas:
+
+- **Funcionalidades Adicionais:**
+
+  - Fazer perguntas com imagem ou áudio.
+  - Stream da resposta.
+  - Exibição de markdown/LaTex para perguntas matemáticas.
+  - Editar perguntas.
+  - Compartilhamento de perguntas.
+  - Renomaer o titulo das perguntas listadas.
+  - Reorganizar favoritos com arrastar e soltar.
+  - Implementar funcionalidades para a tela de assinatura premium.
+  - Mover perguntas excluidas para uma lixeira. Perguntas ainda na lixeira evita novas chamadas a API.
+  - Testes.
+  - Tela de login.
+  - Deploy.
+
+- **UI/UX:** Refinamentos na interface de usuário para melhorar a experiência do usuário e a usabilidade.
+- **Testes Unitários:** Implementação de testes unitários.
+
+## 👨‍💻 Autor
+
+**@Igor Felipe**
+
+[![Linkedin Badge](https://img.shields.io/badge/-LinkdedIn-blue?style=for-the-badge&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/iigor-felipe/)](https://www.linkedin.com/in/iigor-felipe/)
+[![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=for-the-badge&logo=Gmail&logoColor=white&link=mailto:iigorfelipe@gmail.com)](mailto:iigorfelipe@gmail.com)
