@@ -43,7 +43,7 @@ async function fetchRealOpenAIResponse(question: string) {
           { role: 'system', content: 'Você é um assistente útil.' },
           { role: 'user', content: question },
         ],
-        max_tokens: 100,
+        // max_tokens: 300,
         temperature: 0.7,
       },
       {

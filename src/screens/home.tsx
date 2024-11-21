@@ -3,22 +3,29 @@ import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { Image, TextInput, View } from 'react-native';
 import { fetchOpenAIResponse } from '../api';
-import IconButton from '../components/icon-button';
+import IconButton, { LoadingButton } from '../components/icon-button';
 import { useQuestionStore } from '../store/use-question-store';
 import { colors } from '../styles/colors';
 import { DrawerParamList, TokensType } from '../types/question';
 import { useKeyboardSafeAreaIOS } from '../hooks/use-keyboard-safearea-ios';
 import AreaPremium from '../components/area-premium';
 import { useAreaPremiumStore } from '../store/bottom-sheet';
+import { Notification } from '../components/notifications';
 export default function HomeScreen() {
   const [question, setQuestion] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const { questions, addQuestion } = useQuestionStore();
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
   const paddingBottom = useKeyboardSafeAreaIOS();
+
   const { openBottomSheet } = useAreaPremiumStore();
+
   const handleSendQuestion = async () => {
+    setIsLoading(true);
     if (question.trim().length === 0) {
-      console.error('Por favor, insira uma pergunta');
+      Notification.error('Campo vazio', 'Por favor, insira uma pergunta');
+      setIsLoading(false);
       return;
     }
 
@@ -27,13 +34,17 @@ export default function HomeScreen() {
     if (existingQuestion) {
       console.log(' --- Pergunta ja realizada --- ');
       navigation.navigate('QuestionDetail', { ...existingQuestion });
+      setIsLoading(false);
       return;
     }
 
-    const response = await fetchOpenAIResponse(question, true);
+    const response = await fetchOpenAIResponse(question);
+
+    console.log(' --- RESPONSE --- ', response);
 
     if (response.error?.status === 429) {
       openBottomSheet();
+      setIsLoading(false);
       return;
     }
 
@@ -49,6 +60,7 @@ export default function HomeScreen() {
     addQuestion(newQuestion);
     setQuestion('');
     navigation.navigate('QuestionDetail', { ...newQuestion });
+    setIsLoading(false);
   };
 
   return (
@@ -68,13 +80,18 @@ export default function HomeScreen() {
           value={question}
           onChangeText={setQuestion}
         />
-        <IconButton
-          iconName="send"
-          onPress={handleSendQuestion}
-          iconColor="#fff"
-          circle={true}
-          circleColor={colors.primary}
-        />
+
+        {isLoading ? (
+          <LoadingButton />
+        ) : (
+          <IconButton
+            iconName="send"
+            onPress={handleSendQuestion}
+            iconColor="#fff"
+            circle={true}
+            circleColor={colors.primary}
+          />
+        )}
       </View>
       <View className="mb-[3%]" />
       <AreaPremium />

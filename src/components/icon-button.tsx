@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Pressable, View } from 'react-native';
+import { EvilIcons, MaterialIcons } from '@expo/vector-icons';
+import { colors } from '../styles/colors';
 
 type IconButtonProps = {
   iconName: keyof typeof MaterialIcons.glyphMap;
@@ -27,5 +28,16 @@ export default function IconButton({
     >
       <MaterialIcons name={iconName} size={size} color={iconColor} />
     </Pressable>
+  );
+}
+
+export function LoadingButton() {
+  return (
+    <View
+      style={{ backgroundColor: colors.primary }}
+      className="p-2 rounded-full flex items-center justify-center"
+    >
+      <EvilIcons name="spinner-3" size={24} color="#fff" className="animate-spin" />
+    </View>
   );
 }
