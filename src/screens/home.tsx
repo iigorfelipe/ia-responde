@@ -1,18 +1,21 @@
 import { NavigationProp } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Image, TextInput, View } from 'react-native';
+import { Image, TextInput, View } from 'react-native';
 import { fetchOpenAIResponse } from '../api';
 import IconButton from '../components/icon-button';
 import { useQuestionStore } from '../store/use-question-store';
 import { colors } from '../styles/colors';
-import { DrawerParamList } from '../types/question';
-
+import { DrawerParamList, TokensType } from '../types/question';
+import { useKeyboardSafeAreaIOS } from '../hooks/use-keyboard-safearea-ios';
+import AreaPremium from '../components/area-premium';
+import { useAreaPremiumStore } from '../store/bottom-sheet';
 export default function HomeScreen() {
   const [question, setQuestion] = useState('');
   const { questions, addQuestion } = useQuestionStore();
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
-
+  const paddingBottom = useKeyboardSafeAreaIOS();
+  const { openBottomSheet } = useAreaPremiumStore();
   const handleSendQuestion = async () => {
     if (question.trim().length === 0) {
       console.error('Por favor, insira uma pergunta');
@@ -30,7 +33,7 @@ export default function HomeScreen() {
     const response = await fetchOpenAIResponse(question, true);
 
     if (response.error?.status === 429) {
-      Alert.alert('Tenha perguntas ilimitadas com o Premium');
+      openBottomSheet();
       return;
     }
 
@@ -39,6 +42,7 @@ export default function HomeScreen() {
       question: question,
       answer: response.answer,
       created: response.created,
+      tokensUsed: response.tokensUsed as TokensType,
       fav: false,
     };
 
@@ -56,9 +60,10 @@ export default function HomeScreen() {
         />
       </View>
 
-      <View className="flex flex-row gap-2">
+      <View className="flex flex-row gap-2" style={{ paddingBottom }}>
         <TextInput
           placeholder="Digite sua pergunta aqui..."
+          placeholderTextColor={colors.border}
           className="border px-5 rounded-3xl flex-1"
           value={question}
           onChangeText={setQuestion}
@@ -71,6 +76,8 @@ export default function HomeScreen() {
           circleColor={colors.primary}
         />
       </View>
+      <View className="mb-[3%]" />
+      <AreaPremium />
     </View>
   );
 }

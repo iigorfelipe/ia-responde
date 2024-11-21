@@ -1,12 +1,15 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { NewQuestionButton } from '../components/navigation-button';
 import { colors } from '../styles/colors';
 import { formatTimestampToDate } from '../utils/format-timestamp';
 import { useQuestionStore } from '../store/use-question-store';
-import { useNavigation } from 'expo-router';
-import { DrawerParamList } from '../types/question';
+import { useCustomAlert } from '../hooks/use-custom-alert';
+import * as Clipboard from 'expo-clipboard';
+import { QuestionType } from '../types/question';
+import TokensUsed from '../components/tokens-used';
+import { Notification } from '../components/notifications';
 
 type TouchableOpacityCustomProps = {
   iconName: keyof typeof MaterialIcons.glyphMap;
@@ -49,106 +52,110 @@ function TouchableOpacityCustom2({
   );
 }
 
-type QuestionDetailsRouteProp = RouteProp<
-  {
-    QuestionDetail: { id: string; question: string; answer: string; created: number };
-  },
-  'QuestionDetail'
->;
+type QuestionDetailsRouteProp = RouteProp<{ QuestionDetail: QuestionType }, 'QuestionDetail'>;
 
 export default function QuestionDetails({ route }: { route: QuestionDetailsRouteProp }) {
-  const navigation = useNavigation<NavigationProp<DrawerParamList>>();
-  const { id, question, answer, created } = route.params;
-  const { toggleFavorite, questions } = useQuestionStore();
-  const formatedDate = formatTimestampToDate(created);
+  const { id, question, answer, created, tokensUsed } = route.params;
+  const { toggleFavorite, questions, removeQuestion } = useQuestionStore();
+  const { showAlert, CustomAlert, navigate } = useCustomAlert();
 
+  const formatedDate = formatTimestampToDate(created);
   const isFavQuestion = questions.find((item) => item.id === id)?.fav;
 
   const handleDelete = () => {
-    Alert.alert(
-      'Excluir pergunta',
-      'Tem certeza que deseja excluir esta pergunta? Ela será removida dos favoritos também.',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: () => {
-            const questionStore = useQuestionStore.getState();
-            questionStore.removeQuestion(id);
-            navigation.navigate('Home');
-          },
-        },
-      ],
-    );
+    showAlert({
+      title: 'Excluir pergunta',
+      message: 'Tem certeza que deseja excluir esta pergunta? Ela será removida dos favoritos também.',
+      onConfirm: () => {
+        removeQuestion(id);
+        navigate('Home');
+      },
+    });
   };
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1, paddingLeft: 16, paddingRight: 16, gap: 8 }}>
-      <View className="p-3 w-24 bg-white rounded-3xl mt-2 mx-auto">
-        <Text className="font-semibold text-base">{formatedDate}</Text>
-      </View>
+    <>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingLeft: 16, paddingRight: 16, gap: 8, paddingBottom: 8 }}
+      >
+        <View className="p-3 items-center justify-center bg-white rounded-3xl mt-2 mx-auto">
+          <Text className="font-semibold text-base text-center">{formatedDate}</Text>
+        </View>
+        <View className="flex flex-col bg-white rounded-3xl p-4 gap-8">
+          <View className="gap-2">
+            <View className="flex flex-row items-center w-full justify-between">
+              <View className="flex flex-row gap-2 items-center">
+                <View className="rounded-full p-3 bg-primary"></View>
+                <Text className="text-sm">Você</Text>
+              </View>
 
-      <View className="flex flex-col bg-white rounded-3xl p-4 gap-8">
-        <View className="gap-2">
-          <View className="flex flex-row items-center w-full justify-between">
-            <View className="flex flex-row gap-2 items-center">
-              <View className="rounded-full p-3 bg-primary"></View>
-              <Text className="text-sm">Você</Text>
+              <TouchableOpacityCustom
+                iconName="edit-note"
+                text="Editar pergunta"
+                iconColor={colors.border}
+                onPress={() => {}}
+              />
             </View>
 
-            <TouchableOpacityCustom
-              iconName="edit-note"
-              text="Editar pergunta"
-              iconColor={colors.border}
-              onPress={() => {}}
-            />
-          </View>
-
-          <View className="ml-8 gap-2">
-            <Text className="font-medium text-base">{question}</Text>
-            <TouchableOpacityCustom
-              iconName="content-copy"
-              text="Copiar pergunta"
-              size={12}
-              iconColor={colors.border}
-              onPress={() => {}}
-            />
-          </View>
-        </View>
-
-        <View className="gap-2">
-          <View className="flex flex-row items-center w-full justify-between">
-            <View className="flex flex-row gap-2 items-center">
-              <View className="rounded-full p-3 bg-primary"></View>
-              <Text className="text-sm">IA</Text>
+            <View className="ml-8 gap-2">
+              <Text className="font-medium text-base">{question}</Text>
+              <TouchableOpacityCustom
+                iconName="content-copy"
+                text="Copiar pergunta"
+                size={12}
+                iconColor={colors.border}
+                onPress={() => {
+                  Clipboard.setStringAsync(answer);
+                  Notification.success(
+                    'Pergunta copiada!',
+                    'A pergunta foi copiada para a área de transferência',
+                  );
+                }}
+              />
             </View>
           </View>
 
-          <View className="ml-8 gap-2">
-            <Text className="font-medium text-base">{answer}</Text>
-            <TouchableOpacityCustom
-              iconName="content-copy"
-              text="Copiar resposta"
-              size={12}
-              onPress={() => {}}
-            />
+          <View className="gap-2">
+            <View className="flex flex-row items-center w-full justify-between">
+              <View className="flex flex-row gap-2 items-center">
+                <View className="rounded-full p-3 bg-primary"></View>
+                <Text className="text-sm">IA</Text>
+              </View>
+            </View>
+
+            <View className="ml-8 gap-2">
+              <Text className="font-medium text-base">{answer}</Text>
+              <TouchableOpacityCustom
+                iconName="content-copy"
+                text="Copiar resposta"
+                size={12}
+                onPress={() => {
+                  Clipboard.setStringAsync(answer);
+                  Notification.success(
+                    'Resposta copiada!',
+                    'A resposta foi copiada para a área de transferência',
+                  );
+                }}
+              />
+            </View>
           </View>
         </View>
-      </View>
+        <View className="flex flex-row items-center justify-evenly bg-white rounded-3xl py-5 gap-2">
+          <TouchableOpacityCustom2 iconName="ios-share" text="Compartilhar" onPress={() => {}} />
+          <TouchableOpacityCustom2
+            iconName={`${isFavQuestion ? 'star' : 'star-outline'}`}
+            text={`${isFavQuestion ? 'Desfavoritar' : 'Favoritar'}`}
+            onPress={() => toggleFavorite(id)}
+            iconColor={`${isFavQuestion ? colors.primary : ''}`}
+          />
+          <TouchableOpacityCustom2 iconName="delete-outline" text="Excluir" onPress={handleDelete} />
+        </View>
+        <NewQuestionButton />
+        <CustomAlert />
+      </ScrollView>
 
-      <View className="flex flex-row items-center justify-evenly bg-white rounded-3xl py-5 gap-2">
-        <TouchableOpacityCustom2 iconName="ios-share" text="Compartilhar" onPress={() => {}} />
-        <TouchableOpacityCustom2
-          iconName={`${isFavQuestion ? 'star' : 'star-outline'}`}
-          text={`${isFavQuestion ? 'Desfavoritar' : 'Favoritar'}`}
-          onPress={() => toggleFavorite(id)}
-          iconColor={`${isFavQuestion ? colors.primary : ''}`}
-        />
-        <TouchableOpacityCustom2 iconName="delete-outline" text="Excluir" onPress={handleDelete} />
-      </View>
-
-      <NewQuestionButton />
-    </ScrollView>
+      <View className="mb-[3%]" />
+      <TokensUsed tokensUsed={tokensUsed} />
+    </>
   );
 }

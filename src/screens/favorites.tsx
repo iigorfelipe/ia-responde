@@ -1,5 +1,5 @@
 import { NewQuestionButton } from '@/src/components/navigation-button';
-import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Image, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -7,12 +7,27 @@ import { DrawerParamList } from '../types/question';
 import IconButton from '../components/icon-button';
 import { colors } from '../styles/colors';
 import { useQuestionStore } from '../store/use-question-store';
+import { useCustomAlert } from '../hooks/use-custom-alert';
+import AreaPremium from '../components/area-premium';
 
 export default function FavoriteQuestions() {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
   const { questions, toggleFavorite } = useQuestionStore();
   const [selectedValue, setSelectedValue] = useState('Data');
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { showAlert, CustomAlert, navigate } = useCustomAlert();
+
+  const handleRemoveFavorite = (id: string) => {
+    showAlert({
+      title: 'Excluir dos Favoritos?',
+      message: 'Você tem certeza que quer excluir esta pergunta dos favoritos?',
+      onConfirm: () => {
+        toggleFavorite(id);
+        navigate('Home');
+      },
+    });
+  };
 
   const favQuestions = questions.filter((question) => question.fav);
   const options = ['Data', 'Nome'];
@@ -21,6 +36,16 @@ export default function FavoriteQuestions() {
     setSelectedValue(value);
     setModalVisible(false);
   };
+
+  const sortedFavQuestions = favQuestions.sort((a, b) => {
+    if (selectedValue === 'Data') {
+      return new Date(a.created).getTime() - new Date(b.created).getTime();
+    }
+    if (selectedValue === 'Nome') {
+      return a.question.localeCompare(b.question);
+    }
+    return 0;
+  });
 
   if (favQuestions.length === 0) {
     return (
@@ -55,7 +80,6 @@ export default function FavoriteQuestions() {
           <Text className="text-base font-medium">{selectedValue}</Text>
         </TouchableOpacity>
       </View>
-
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -68,12 +92,12 @@ export default function FavoriteQuestions() {
         <View className="flex flex-col bg-white rounded-3xl px-0">
           <FlatList
             scrollEnabled={false}
-            data={favQuestions}
+            data={sortedFavQuestions}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (
               <View
                 className={`flex flex-row items-center justify-between p-4 ${
-                  index === favQuestions.length - 1 ? '' : 'border-b border-background'
+                  index === sortedFavQuestions.length - 1 ? '' : 'border-b border-background'
                 }`}
               >
                 <TouchableOpacity
@@ -84,7 +108,11 @@ export default function FavoriteQuestions() {
                 >
                   <Text className="text-lg font-medium">{item.question}</Text>
                 </TouchableOpacity>
-                <IconButton iconName="star" iconColor={colors.primary} onPress={() => toggleFavorite(item.id)} />
+                <IconButton
+                  iconName="star"
+                  iconColor={colors.primary}
+                  onPress={() => handleRemoveFavorite(item.id)}
+                />
               </View>
             )}
           />
@@ -97,8 +125,8 @@ export default function FavoriteQuestions() {
         </View>
 
         <NewQuestionButton />
+        <CustomAlert />
       </ScrollView>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -121,6 +149,8 @@ export default function FavoriteQuestions() {
           </View>
         </View>
       </Modal>
+      <View className="mb-[3%]" />
+      <AreaPremium />
     </View>
   );
 }
