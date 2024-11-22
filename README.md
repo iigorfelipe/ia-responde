@@ -4,7 +4,11 @@
 
 </div>
 
+<div align="center">
+
 # IA Responde
+
+</div>
 
 ## Protótipo de Design (Figma)
 
@@ -42,7 +46,7 @@
   - **Bottom Sheets:** Painéis deslizantes que mostram informações extras, como tokens usados e planos de assinatura premium.
 - **Menu lateral:** Exibe lista de perguntas com navegação para detalhes, favoritos e tela inicial.
   - Filtros por nome e agrupamento por data.
-- **Favoritos:**  Lista de perguntas favoritas, com opção de desfavoritar.
+- **Favoritos:** Lista de perguntas favoritas, com opção de desfavoritar.
   - Ordenação por `Nome`, `Data (Mais recentes)` e `Data (Mais antigas)`
 - **Header:** Acesso ao menu lateral e área de assinatura premium.
 
@@ -91,6 +95,7 @@ npm install
 ```bash
 cp .env.example .env
 ```
+⚠️ **Atenção:** É necessário obter uma chave da API da OpenAI para o funcionamento do projeto. No arquivo ``.env.example``, há um passo a passo de como gerar essa chave.
 
 5. Execute o projeto:
 
@@ -103,6 +108,11 @@ ou
 ```bash
 npx expo start --tunnel --clear
 ```
+
+6. Acesse o projeto no dispositivo:
+
+- **Para Android:** Abra o aplicativo Expo Go, disponível na Google Play Store, e escaneie o QR Code gerado no terminal ou na interface do Expo.
+- **Para iOS:** Abra a câmera do seu dispositivo e escaneie o QR Code gerado no terminal ou na interface do Expo.
 
 ⚠️ Se encontrar qualquer dificuldade, sinta-se à vontade para me contatar através dos links fornecidos ao final desta documentação.
 
