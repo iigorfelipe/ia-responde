@@ -32,7 +32,7 @@ export default function TokensUsed({ tokensUsed }: TokensUsedProps) {
               <Text className="font-bold text-lg text-center">O que são tokens?</Text>
               <Text className="text-center">
                 Um token pode ser uma palavra, parte de uma palavra ou até mesmo um caractere presente na
-                pergunta ou na resposta.
+                pergunta ou na resposta. {' '}
                 <Text
                   className="text-blue-600 underline font-medium"
                   onPress={() => Linking.openURL('https://platform.openai.com/tokenizer')}
