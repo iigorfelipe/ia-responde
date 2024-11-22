@@ -13,10 +13,13 @@ import AreaPremium from '../components/area-premium';
 export default function FavoriteQuestions() {
   const navigation = useNavigation<NavigationProp<DrawerParamList>>();
   const { questions, toggleFavorite } = useQuestionStore();
+  const { showAlert, CustomAlert } = useCustomAlert();
+
   const [selectedValue, setSelectedValue] = useState('Data (Mais recentes)');
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { showAlert, CustomAlert, navigate } = useCustomAlert();
+  const favQuestions = questions.filter((question) => question.fav);
+  const options = ['Data (Mais recentes)', 'Nome', 'Data (Mais antigos)'];
 
   const handleRemoveFavorite = (id: string) => {
     showAlert({
@@ -24,13 +27,9 @@ export default function FavoriteQuestions() {
       message: 'Você tem certeza que quer excluir esta pergunta dos favoritos?',
       onConfirm: () => {
         toggleFavorite(id);
-        navigate('Home');
       },
     });
   };
-
-  const favQuestions = questions.filter((question) => question.fav);
-  const options = ['Data (Mais recentes)', 'Nome', 'Data (Mais antigos)'];
 
   const handleSelect = (value: string) => {
     setSelectedValue(value);
@@ -141,7 +140,9 @@ export default function FavoriteQuestions() {
                 data={options}
                 keyExtractor={(item) => item}
                 renderItem={({ item, index }) => (
-                  <View className={`py-6 ${index === options.length - 1 ? '' : 'border-b border-background'}`}>
+                  <View
+                    className={`py-6 ${index === options.length - 1 ? '' : 'border-b border-background'}`}
+                  >
                     <TouchableOpacity onPress={() => handleSelect(item)}>
                       <Text className="text-center text-lg font-medium">{item}</Text>
                     </TouchableOpacity>
