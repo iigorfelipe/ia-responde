@@ -1,14 +1,17 @@
-import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
-import BottomSheetDemo from './bottom-sheet';
 import { MaterialIcons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
+import { DimensionValue, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useAreaPremiumStore } from '../store/bottom-sheet';
+import BottomSheetDemo from './bottom-sheet';
 
 type AreaPremiumContentProps = {
   height?: DimensionValue;
 };
+
 export function AreaPremiumContent({ height = '100%' }: AreaPremiumContentProps) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <LinearGradient
       colors={['#36007D', '#5C00B6', '#36007D']}
@@ -71,7 +74,7 @@ export function AreaPremiumContent({ height = '100%' }: AreaPremiumContentProps)
         </View>
         <TouchableOpacity
           className="flex items-center justify-center rounded-3xl p-3 bg-primary"
-          onPress={() => {}}
+          onPress={() => setModalVisible(true)}
         >
           <Text className="text-white text-lg font-medium">Assinar o Premium</Text>
         </TouchableOpacity>
@@ -79,6 +82,43 @@ export function AreaPremiumContent({ height = '100%' }: AreaPremiumContentProps)
           Termos | Privacidade | Renovação automática até ser cancelado
         </Text>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View className="flex-1 justify-center items-center bg-black/50">
+            <View className="bg-white rounded-3xl m-8 relative">
+              <View className="p-6 gap-4 mt-2">
+                <Text className="text-xl font-medium text-center mb-4">
+                  Adicionando Créditos à Sua Conta OpenAI
+                </Text>
+
+                <View className="flex flex-col  gap-2">
+                  <Text className="">
+                    1. Acesse: {''}
+                    <Text className="font-bold text-blue-600">https://platform.openai.com</Text>
+                  </Text>
+                  <Text className="">
+                    2. Faça login na sua conta ou crie uma nova, se ainda não tiver uma.
+                  </Text>
+                  <Text className="">3. Após o login, clique em "Billing" (Faturamento) no menu.</Text>
+                  <Text className="">
+                    4. Na página de Faturamento, conclua a transação utilizando seu cartão de crédito.
+                  </Text>
+                  <Text className="text-sm text-gray-500 mt-4">
+                    * No projeto verifique se você está usando a chave da OpenAI da conta onde os créditos foram
+                    adicionados, para garantir que tudo funcione corretamente
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </LinearGradient>
   );
 }
