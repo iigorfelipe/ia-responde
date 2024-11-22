@@ -24,10 +24,10 @@
 
 ## 🎥 Vídeos:
 
-<div style="display: flex; gap: 16px; justify-content: center;">
-  <video src="https://github.com/user-attachments/assets/7e8b3d67-5799-45b7-b115-8636b143b40b" autoplay loop muted height="450px"></video>
-  <video src="https://github.com/user-attachments/assets/e846bc1c-dfbd-4c82-9d03-1ae2b3abe1da" autoplay loop muted height="450px"></video>
-</div>
+| Pergunta + Detalhes | Favoritos + Filtragens |
+|---------|---------|
+| <video src="https://github.com/user-attachments/assets/7e8b3d67-5799-45b7-b115-8636b143b40b" autoplay loop muted height="450px"></video> | <video src="https://github.com/user-attachments/assets/e846bc1c-dfbd-4c82-9d03-1ae2b3abe1da" autoplay loop muted height="450px"></video> |
+
 <a name="challenge"></a>
 
 ## 📌 Desafio:
