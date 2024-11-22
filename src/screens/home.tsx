@@ -39,9 +39,14 @@ export default function HomeScreen() {
 
     const response = await fetchOpenAIResponse(question);
 
-    if (response.error?.status === 429) {
-      openBottomSheet();
+    if (response.error) {
+      if (response.error?.status === 429) {
+        openBottomSheet();
+      }
       setIsLoading(false);
+      setQuestion('');
+      alert(response.error.message);
+      navigation.navigate('Home');
       return;
     }
 

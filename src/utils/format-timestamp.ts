@@ -6,8 +6,7 @@ export const formatTimestampToDate = (unixTimestamp: number) => {
 
 export const formatTimestampToRelativeDate = (timestamp: number): string => {
   const now = new Date();
-  const date = new Date(timestamp * 1000);
-
+  const date = timestamp ? new Date(timestamp * 1000) : now;
   const diffInDays = differenceInCalendarDays(now, date);
 
   if (diffInDays === 0) {

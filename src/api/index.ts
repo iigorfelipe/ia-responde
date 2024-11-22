@@ -65,14 +65,20 @@ async function fetchRealOpenAIResponse(question: string) {
 
     return { id, answer, created, tokensUsed, error: null };
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status;
-      const message = error.response?.data?.error?.message;
+    let status: number | string = 'unknown';
+    let message = 'Erro desconhecido.';
 
-      return { error: { status, message } };
-    } else {
-      return { error: { status: 'unknown', message: 'Erro desconhecido' } };
+    if (axios.isAxiosError(error)) {
+      status = error.response?.status ?? 'unknown';
+      message = error.response?.data?.error?.message ?? 'Erro na API do OpenAI.';
     }
+
+    const userMessage =
+      status === 401
+        ? 'Erro de autenticação. Verifique a chave de API.'
+        : 'Não foi possível obter a resposta no momento. Tente novamente mais tarde.';
+
+    return { error: { status, message: userMessage } };
   }
 }
 
