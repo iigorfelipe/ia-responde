@@ -61,6 +61,13 @@ Para testar o aplicativo, instale o **Expo Go** e escolha uma das opções abaix
 https://expo.dev/preview/update?message=deploy%3A%20test%20deployment%20using%20EAS%20update&updateRuntimeVersion=1.0.0&createdAt=2024-11-26T17%3A22%3A40.113Z&slug=exp&projectId=d34507d7-c465-4ddf-b9c0-b0b5aad3c7a8&group=59f8a026-7288-4609-8412-e0c65c777ac9
 ```
 
+## Versão do Aplicativo:
+
+- **Versão do aplicativo:** 1.0.0
+- **Data de publicação:** Nov 26, 2024, 2:22 PM
+- **Plataformas:** Android, iOS
+
+
 ## 🔗 Funcionalidades Principais:
 
 - **Tela inicial:** Envie perguntas à API da OpenAI.
