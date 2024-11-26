@@ -38,6 +38,29 @@
 
 **IA Responde** é um aplicativo React Native desenvolvido para interagir com a API da OpenAI, oferecendo uma experiência de perguntas e respostas (Q&A) personalizada. Os dados são salvos localmente no dispositivo, garantindo fácil acesso offline.
 
+
+## Acessando o App:
+
+Para testar o aplicativo, instale o **Expo Go** e escolha uma das opções abaixo:
+
+#### 1. Com QR Code:
+
+  - **Android:** Abra o **Expo Go** e escaneie o código QR abaixo.
+
+  - **iOS:** Escaneie o código QR abaixo e clique no link do **Expo Go**.
+
+<img src="https://github.com/user-attachments/assets/8254aa1d-cd74-4f94-850e-784d2e29fa33" height="250px">
+
+#### 2. Com Link:
+
+  - Abra o **Expo Go** no seu dispositivo.
+  - No campo **"Enter URL manually"**, cole o link abaixo:
+
+
+```
+https://expo.dev/preview/update?message=deploy%3A%20test%20deployment%20using%20EAS%20update&updateRuntimeVersion=1.0.0&createdAt=2024-11-26T17%3A22%3A40.113Z&slug=exp&projectId=d34507d7-c465-4ddf-b9c0-b0b5aad3c7a8&group=59f8a026-7288-4609-8412-e0c65c777ac9
+```
+
 ## 🔗 Funcionalidades Principais:
 
 - **Tela inicial:** Envie perguntas à API da OpenAI.
