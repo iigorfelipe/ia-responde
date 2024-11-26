@@ -1,6 +1,6 @@
 <div align="center">
 
-[Desafio](#challenge) | [Tecnologias](#technologies) | [Instalação](#install) | [API](#api) | [Autor](#autor)
+[Desafio](#challenge) |  [Acessando o App](#app) | [Tecnologias](#technologies) | [Instalação](#install) | [API](#api) | [Autor](#autor)
 
 </div>
 
@@ -10,17 +10,20 @@
 
 </div>
 
-## Protótipo de Design (Figma)
+## 🖼️ Imagens:
 
-<img src="https://github.com/user-attachments/assets/ffba3159-0733-412f-a995-43f7da51d935">
+| Primeiro Acesso | Menu Lateral | Tela de Favoritos |
+|-----------------|--------------|-------------------|
+| <img src="https://github.com/user-attachments/assets/5740504e-565c-4894-9202-57147a87a31b" alt="Primeiro acesso" height="450px" /> | <img src="https://github.com/user-attachments/assets/00ef7bbb-8328-4555-a3d8-f35f74841252" alt="Menu lateral" height="450px" /> | <img src="https://github.com/user-attachments/assets/92742832-d1cc-4b4e-bad9-67611c76f241" alt="Tela de Favoritos" height="450px" /> |
 
-<!-- ## 🖼️ Imagens:
+|  Área de Assinatura Premium | Detalhes com Tokens| Tokens com Premium |
+|-----------------------------|------------------------------|----------------------------|
+|  <img src="https://github.com/user-attachments/assets/f4db8316-f4a3-4112-a8f5-7cc1163de7cd" alt="Área de assinatura premium" height="450px" /> | <img src="https://github.com/user-attachments/assets/8cf83e84-4d83-4964-80f9-723bcc079a8b" alt="Tela de Detalhes da pergunta" height="450px" /> | <img src="https://github.com/user-attachments/assets/d471e8fa-74a3-4c5b-8c42-964c9835892a" alt="Tela de Detalhes da pergunta com premium" height="450px" /> |
 
-<img src="" alt="Tela inical" height="450px" />
-<img src="" alt="Menu lateral" height="450px" />
-<img src="" alt="Tela de Favoritos" height="450px" />
-<img src="" alt="Tela de Detalhes da pergunta" height="450px" />
-<img src="" alt="Área de assinatura premium" height="450px" /> -->
+| Excluir Pergunta | Excluir Favorito |
+|------------------|------------------|
+| <img src="https://github.com/user-attachments/assets/b7a747e1-c78e-4664-a028-6e5c42160ff3" alt="Excluir pergunta" height="450px" /> | <img src="https://github.com/user-attachments/assets/440056d5-c96e-4005-b3a5-22659fffc12d" alt="Excluir favorito" height="450px" /> |
+
 
 ## 🎥 Vídeos:
 
@@ -38,6 +41,8 @@
 
 **IA Responde** é um aplicativo React Native desenvolvido para interagir com a API da OpenAI, oferecendo uma experiência de perguntas e respostas (Q&A) personalizada. Os dados são salvos localmente no dispositivo, garantindo fácil acesso offline.
 
+
+<a name="app"></a>
 
 ## Acessando o App:
 
@@ -148,6 +153,22 @@ npx expo start --tunnel --clear
 
 ⚠️ Se encontrar qualquer dificuldade, sinta-se à vontade para me contatar através dos links fornecidos ao final desta documentação.
 
+<a name="api"></a>
+
+## 🌐 API:
+
+A aplicação utiliza a API da OpenAI para gerar respostas. A função fetchRealOpenAIResponse faz uma requisição para o endpoint `https://api.openai.com/v1/chat/completions`, enviando a pergunta do usuário e retornando os seguintes dados:
+
+- **id:** Identificador único da interação, retirado de `response.data.id`.
+- **answer:** Resposta gerada pelo modelo, extraída de `response.data.choices[0].message.content`.
+- **created:** Timestamp da criação da resposta, vindo de `response.data.created`.
+- **tokensUsed:** Detalhes sobre o uso de tokens, proveniente de `response.data.usage`.
+
+Esses dados são salvos para exibir ao usuário e possibilitar o uso offline.
+
+Para mais detalhes sobre os retornos da API, consulte a [documentação oficial da OpenAI](https://platform.openai.com/docs/api-reference/making-requests)
+
+
 ## 🔧🌐 Testando sem a chave da OpenAI:
 
 Você pode testar a aplicação sem precisar de uma chave da API. Para isso, siga os passos abaixo:
@@ -166,20 +187,6 @@ O parâmetro true faz com que a função retorne dados simulados.
 
 Isso permite que você teste a aplicação com dados simulados, que são idênticos aos da API real.
 
-<a name="api"></a>
-
-## 🌐 API:
-
-A aplicação utiliza a API da OpenAI para gerar respostas. A função fetchRealOpenAIResponse faz uma requisição para o endpoint `https://api.openai.com/v1/chat/completions`, enviando a pergunta do usuário e retornando os seguintes dados:
-
-- **id:** Identificador único da interação, retirado de `response.data.id`.
-- **answer:** Resposta gerada pelo modelo, extraída de `response.data.choices[0].message.content`.
-- **created:** Timestamp da criação da resposta, vindo de `response.data.created`.
-- **tokensUsed:** Detalhes sobre o uso de tokens, proveniente de `response.data.usage`.
-
-Esses dados são salvos para exibir ao usuário e possibilitar o uso offline.
-
-Para mais detalhes sobre os retornos da API, consulte a [documentação oficial da OpenAI](https://platform.openai.com/docs/api-reference/making-requests)
 
 ## Estrutura do Projeto
 
@@ -241,6 +248,10 @@ Se houvesse mais tempo, as seguintes melhorias poderiam ser implementadas:
 
 - **UI/UX:** Refinamentos na interface de usuário para melhorar a experiência do usuário e a usabilidade.
 - **Testes Unitários:** Implementação de testes unitários.
+
+## Protótipo incial de Design (Figma)
+
+<img src="https://github.com/user-attachments/assets/ffba3159-0733-412f-a995-43f7da51d935">
 
 <a name="autor"></a>
 
